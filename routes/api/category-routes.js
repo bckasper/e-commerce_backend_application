@@ -29,6 +29,11 @@ router.get('/:id', async (req, res) => {
         attributes: ['id', 'product_name']
       }]
     });
+
+    if(!singleCategory){
+      res.status(404).json({message: 'No category with that ID. Try again!'})
+    }
+
     res.status(200).json(singleCategory)
   } catch (err) {
     res.status(500).json(err)
@@ -39,6 +44,11 @@ router.post('/', async (req, res) => {
   // create a new category
   try{
     const newCategory = await Category.create(req.body);
+
+    if(!newCategory){
+      res.status(404).json({message: 'Please enter a valid input for a new category!'})
+    }
+
     res.status(200).json(newCategory);
   } catch (err){
     res.status(400).json(err)
